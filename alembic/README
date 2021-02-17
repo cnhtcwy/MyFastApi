@@ -1,0 +1,21 @@
+Generic single-database configuration.
+https://www.cnblogs.com/CharmCode/p/14191090.html
+1.先安装alembic
+pip install alembic
+2.然后生成初始化文件, 在项目外一层使用以下初始化命令
+alembic init alembic
+
+迁移命令(两步)
+1.alembic revision --autogenerate -m "init commit"  # 注意修改了orm之后，修改-m后迁移脚本提示
+2.会通过迁移脚本生成表
+alembic upgrade head
+
+
+# 进入项目下
+cd your_project/
+
+# 生成关系映射 (第二次生成映射记得修改提交注释 init commit)
+alembic revision --autogenerate -m "init commit"
+
+# 生成表 (注意初次生成表会删除其他的表 建议在一个空数据库测试)
+alembic upgrade head

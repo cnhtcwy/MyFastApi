@@ -1,0 +1,54 @@
+2021-02-17 18:33:53.780 | INFO     | app.db.sys_redis:init_redis_connect:56 - 连接redis异常 Client sent AUTH, but no password is set
+2021-02-17 18:37:29.856 | ERROR    | app.core.server:user_token_exception_handler:150 - 用户认证异常
+URL:POSThttp://127.0.0.1:8010/del/auth
+Headers:Headers({'host': '127.0.0.1:8010', 'connection': 'keep-alive', 'content-length': '59', 'accept': 'application/json', 'origin': 'http://127.0.0.1:8010', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36', 'token': '12123', 'content-type': 'application/json', 'referer': 'http://127.0.0.1:8010/api/docs', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'zh-CN,zh;q=0.9'})
+Traceback (most recent call last):
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\jose\jws.py", line 185, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\jose\jwt.py", line 154, in decode
+    payload = jws.verify(token, key, algorithms, verify=verify_signature)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\jose\jws.py", line 77, in verify
+    header, payload, signing_input, signature = _load(token)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\jose\jws.py", line 189, in _load
+    raise JWSError('Not enough segments')
+jose.exceptions.JWSError: Not enough segments
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\pythonproject\workspace\MyFastApi\app\common\deps.py", line 53, in check_jwt_token
+    payload = jwt.decode(
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\jose\jwt.py", line 156, in decode
+    raise JWTError(e)
+jose.exceptions.JWTError: Not enough segments
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\starlette\routing.py", line 566, in __call__
+    await route.handle(scope, receive, send)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\starlette\routing.py", line 227, in handle
+    await self.app(scope, receive, send)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\starlette\routing.py", line 41, in app
+    response = await func(request)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\fastapi\routing.py", line 191, in app
+    solved_result = await solve_dependencies(
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\fastapi\dependencies\utils.py", line 516, in solve_dependencies
+    solved_result = await solve_dependencies(
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\fastapi\dependencies\utils.py", line 550, in solve_dependencies
+    solved = await run_in_threadpool(call, **sub_values)
+  File "D:\pythonproject\workspace\MyFastApi\venv\lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await loop.run_in_executor(None, func, *args)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\concurrent\futures\thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\pythonproject\workspace\MyFastApi\app\common\deps.py", line 61, in check_jwt_token
+    raise custom_exc.TokenAuthError()
+app.common.custom_exc.TokenAuthError
+
