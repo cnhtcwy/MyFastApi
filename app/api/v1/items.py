@@ -11,6 +11,7 @@
 
 """
 import os
+import re
 from typing import Any
 import shutil
 
@@ -26,9 +27,24 @@ from app.common import deps
 from app.schemas.response import response_code
 from app.core.config import settings
 from app.db.sys_redis import redis_client
-
+from pydantic import BaseModel, validator, conint, constr
 router = APIRouter()
 
+
+class UserInfo(BaseModel):
+    foo: int = 1
+    age: conint(le=120) = 18
+    # 这里 regex验证 我不知道为什么PyCharm提示语法错误
+    name: constr(min_length=5, max_length=10, regex=r"^xiao\d+$")
+
+    # 复杂的验证一般用这个
+    @validator('name')
+    def name_re(cls, v):
+        # 自定义验证 正则验证name字段 等同于上面的正则验证
+        if not re.match(r"^xiao\d+$", v):
+            # 抛出 ValueError pydantic接收到后会向外抛出 ValidationError
+            raise ValueError("name格式验证错误")
+        return v
 
 @router.get("/test", summary="用户登录认证", name="测试接口")
 async def items_test(
@@ -43,8 +59,8 @@ async def items_test(
     :return:
     """
     # 测试redis使用
-    redis_client.set("test_items", bar, ex=60)
-    redis_test = redis_client.get("test_items")
+    # redis_client.set("test_items", bar, ex=60)
+    # redis_test = redis_client.get("test_items")
 
     # 用不惯orm查询的可以直接sql(建议把CURD操作单独放到service文件夹下,统一管理)
     test_sql = "SELECT nickname,avatar from sys_user WHERE id>=:id"
@@ -53,7 +69,8 @@ async def items_test(
     return response_code.resp_200(data={
         "items": "ok",
         "admin_user_info": admin_user_res,
-        "redis_test": redis_test
+        # "redis_test": redis_test
+        "redis_test": "redis_test"
     })
 
 
