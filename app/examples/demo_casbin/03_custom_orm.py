@@ -19,7 +19,7 @@ import casbin_sqlalchemy_adapter
 
 adapter = casbin_sqlalchemy_adapter.Adapter('sqlite:///test.db')
 
-e = casbin.Enforcer('./custom_model.conf', adapter, True)
+e = casbin.Enforcer('./custom_model.conf', adapter)
 
 
 # 添加

@@ -26,8 +26,8 @@ obj = "data1"  # the resource that is going to be accessed.
 act = "read"  # the operation that the user performs on the resource.
 
 # 添加
-res = e.add_policy("alice", "data1", "read")
-# res = e.remove_policy("alice", "data1", "read")
+res = e.add_policy("999", "/api/user", "GET")
+# res = e.remove_policy("alice", "data2", "read")
 print(res)
 
 # if e.enforce(sub, obj, act):
